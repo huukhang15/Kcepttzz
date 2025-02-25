@@ -251,4 +251,13 @@ def banner2():
 
 def git():
     while True:
-        Print('1.Print anh yêu em')
+        print(Box.Lines("Chọn 1 để ngủ ngon"))
+        print(Box.Lines("Chọn 2 để ăn ngon (file)"))
+        print("Nhập lựa chọn của bạn: ", end="")
+        chon == input()
+        if chon == "1":
+            print("Ngủ ngon")
+            break
+        elif chon == "2":
+            
+
