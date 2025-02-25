@@ -1,50 +1,44 @@
-import subprocess
+import requests
 import time
-import selenium  # Import module chính để kiểm tra
+import subprocess
+import random
+import re
+import os
+from time import sleep
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options  # Import Options rõ ràng
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, StaleElementReferenceException
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from pystyle import Write, Colors
+import subprocess, sys; [subprocess.check_call([sys.executable, "-m", "pip", "install", lib]) for lib in ["requests", "selenium", "pystyle"] if __import__(lib, globals(), locals(), [], 0) is None]
+from datetime import datetime
+import time
 
-# Đường dẫn đến Brave
-BRAVE_PATH = r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
+#========= Cấu hình link =========#
 TIKTOK_URL = "https://www.tiktok.com/"
+FOLLOWING_URL = "https://www.tiktok.com/following"
+BRAVE_PATH = r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
+USER_URL = "https://www.tiktok.com/@{user}"
+#============Brave&senlium================
+def chay_brave():
+    subprocess.Popen(f'"{BRAVE_PATH}" --incognito --remote-debugging-port=9222', shell=True)
+    time.sleep(1)  # Chờ một chút trước khi mở trình duyệt
 
-def start_brave():
-    """
-    Khởi chạy Brave ở chế độ ẩn danh với cổng debug 9222.
-    """
-    try:
-        subprocess.call("taskkill /IM brave.exe /F", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        subprocess.Popen(f'"{BRAVE_PATH}" --incognito --remote-debugging-port=9222', shell=True)
-        time.sleep(5)
-        print("Brave đã được khởi động ở chế độ debug trên cổng 9222.")
-    except Exception as e:
-        print(f"Lỗi khi khởi động Brave: {str(e)}")
+chay_brave()
 
-def configure_selenium():
-    """
-    Cấu hình Selenium để điều khiển Brave qua cổng debug 9222.
-    Returns:
-        webdriver: Đối tượng driver đã được cấu hình.
-    """
-    try:
-        # Kiểm tra xem Options có được import không
-        print("Kiểm tra: Options đã được import từ selenium.webdriver.chrome.options")
-        options = Options()  # Nếu lỗi xảy ra ở đây, vấn đề là do import
-        options.binary_location = BRAVE_PATH
-        options.add_argument("--mute-audio")
-        options.add_argument("--disable-sound")
-        options.debugger_address = "127.0.0.1:9222"
-        
-        driver = webdriver.Chrome(options=options)
-        print("Selenium đã được cấu hình thành công.")
-        driver.get(TIKTOK_URL)
-        time.sleep(2)
-        print("Đã mở trang TikTok.")
-        return driver
-    except Exception as e:
-        print(f"Lỗi khi cấu hình Selenium: {str(e)}")
-        return None
+#========= Cấu hình Selenium =========#
+options = Options()
+options.binary_location = BRAVE_PATH
+options.add_argument("--mute-audio")
+options.add_argument("--disable-sound")
+options.debugger_address = "127.0.0.1:9222"
 
-# Thực thi
-start_brave()
-driver = configure_selenium()
+driver = webdriver.Chrome(options=options)
+
+#========= Đăng nhập Cookie vào Brave (Selenium) =========#
+driver.get(TIKTOK_URL)  # Cần mở trang trước khi thêm cookie
