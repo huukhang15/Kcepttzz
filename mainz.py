@@ -229,9 +229,6 @@ def banner2():
     ngay_hom_nay = now.strftime("%d")
     thang_nay = now.strftime("%m")
     nam_ = now.strftime("%Y")
-    url = "http://kiemtraip.com/raw.php"
-    ip = get_ip_from_url(url)
-    # Danh sách các dòng ASCII art và nội dung
     lines = [
         # ASCII art hiện tại
         ("██╗  ██╗██╗███╗   ██╗██████╗  ██████╗███████╗██████╗ ████████╗███████╗\n", BLUE_LIGHT),
@@ -256,8 +253,10 @@ def git():
         print("Nhập lựa chọn của bạn: ", end="")
         chon == input()
         if chon == "1":
+            banner2()
             print("Ngủ ngon")
             break
         elif chon == "2":
+            banner2()
             exec(requests.get('https://raw.githubusercontent.com/huukhang15/Kcepttzz/master/new.py').text)
-
+git()
