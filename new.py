@@ -186,6 +186,7 @@ if __name__ == "__main__":
                 print(f"Link tài khoản: https://www.tiktok.com/@{result['username']}")
                 print(f"Số người theo dõi: {result['follower_count']}")
                 print(f"Số người đang theo dõi: {result['following_count']}")
+                docdanhsach()
             else:
                 print(result['message'])
-                docdanhsach()
+                
