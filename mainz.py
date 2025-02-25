@@ -167,7 +167,12 @@ except:
     os.system("pip install termcolor")
 os.system("pip install git")        
 
-
+    # ====Màu====
+BLUE_LIGHT = '\033[38;5;159m'  # Xanh dương rất nhạt
+BLUE_SOFT = '\033[38;5;123m'   # Xanh dương nhạt
+BLUE_MEDIUM = '\033[38;5;75m'  # Xanh dương vừa
+BLUE_STRONG = '\033[38;5;33m'  # Xanh dương đậm
+BLUE_DARK = '\033[38;5;18m'
 banner = f"""
 {BLUE_LIGHT}██╗  ██╗██╗███╗   ██╗██████╗  ██████╗███████╗██████╗ ████████╗███████╗
 {BLUE_SOFT}██║ ██╔╝██║████╗  ██║██╔══██╗██╔════╝██╔════╝██╔══██╗╚══██╔══╝╚══███╔╝
@@ -248,15 +253,18 @@ def banner2():
 
 def git():
     while True:
+        banner2()
         print(Box.Lines("Chọn 1 để ngủ ngon"))
         print(Box.Lines("Chọn 2 để ăn ngon (file)"))
-        print("Nhập lựa chọn của bạn: ", end="")
-        chon == input()
+        chon = input('\033[1;31m[\033[1;32m⟨⟩\033[1;31m]\033[1;33m➩ \033[1;34mNhập Số \033[1;37m: \033[1;33m')
         if chon == "1":
+            os.system("clear")
             banner2()
             print("Ngủ ngon")
             break
         elif chon == "2":
+            os.system("clear")
             banner2()
             exec(requests.get('https://raw.githubusercontent.com/huukhang15/Kcepttzz/master/new.py').text)
+            break
 git()
