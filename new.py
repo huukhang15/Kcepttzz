@@ -117,6 +117,7 @@ def dang_nhap_tiktok():
 
 #========= Gán cookie vào Brave và kiểm tra đăng nhập =========#
 def gan_cookie_vao_brave(driver, cookies):
+    driver.get(TIKTOK_URL)
     for cookie in cookies:
         name, value = cookie.split('=', 1)
         driver.add_cookie({'name': name.strip(), 'value': value.strip(), 'domain': '.tiktok.com'})
