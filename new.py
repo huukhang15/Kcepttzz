@@ -1,5 +1,5 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.options import Options  # Import Options đầy đủ
 import time
 
 # Đường dẫn đến Brave
@@ -14,7 +14,7 @@ def configure_selenium():
     """
     try:
         # Thiết lập options cho Selenium
-        options = Options()
+        options = Options()  # Sử dụng Options đã import
         options.binary_location = BRAVE_PATH
         options.add_argument("--mute-audio")  # Tắt âm thanh
         options.add_argument("--disable-sound")  # Tắt âm thanh bổ sung
