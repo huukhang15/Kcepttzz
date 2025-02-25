@@ -1,26 +1,32 @@
+import requests
+import time
+import subprocess
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 
-# Đường dẫn tới Brave trên máy của bạn
-brave_path = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe"  # Thay đổi theo máy bạn
+#========= Cấu hình link =========#
+TIKTOK_URL = "https://www.tiktok.com/"
+BRAVE_PATH = r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
 
-# Đường dẫn tới ChromeDriver
-driver_path = "‪D:\chrome-win32\chrome-win32\chrome.exe"  # Thay đổi theo đường dẫn của bạn
+#========= Khởi chạy Brave (Debug Mode) =========#
+def chay_brave():
+    subprocess.Popen(f'"{BRAVE_PATH}" --incognito --remote-debugging-port=9222', shell=True)
 
-# Cấu hình tùy chọn
+# Chờ một chút trước khi mở trình duyệt
+time.sleep(1)
+chay_brave()
+
+#========= Cấu hình Selenium =========#
 options = Options()
-options.binary_location = brave_path  # Chỉ định Brave làm trình duyệt
-options.add_argument("--incognito")   # Chạy ở chế độ ẩn danh
+options.binary_location = BRAVE_PATH
+options.add_argument("--mute-audio")
+options.add_argument("--disable-sound")
+options.debugger_address = "127.0.0.1:9222"
 
-# Sử dụng Service để chỉ định ChromeDriver
-service = Service(executable_path=driver_path)
-
-# Khởi động trình duyệt
-driver = webdriver.Chrome(service=service, options=options)
-
-# Mở một trang web để kiểm tra
-driver.get("https://www.google.com")
-
-# Đóng trình duyệt sau khi xong (tùy chọn)
-# driver.quit()
+# Mở trình duyệt
+try:
+    driver = webdriver.Chrome(options=options)
+    driver.get(TIKTOK_URL)
+    print("Đã mở TikTok thành công!")
+except Exception as e:
+    print(f"Lỗi khi mở trình duyệt: {e}")
