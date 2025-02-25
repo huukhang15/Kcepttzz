@@ -7,7 +7,6 @@ import requests
 #========= Cấu hình link =========#
 TIKTOK_URL = "https://www.tiktok.com/"
 FOLLOWING_URL = "https://www.tiktok.com/following"
-# Định nghĩa BRAVE_PATH ngay trong file này
 BRAVE_PATH = r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
 USER_URL = "https://www.tiktok.com/@{user}"
 
