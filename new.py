@@ -5,6 +5,9 @@ import requests
 import re
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 
 #========= Cấu hình link =========#
 TIKTOK_URL = "https://www.tiktok.com/"
@@ -62,6 +65,7 @@ def setup_driver():
         options.add_argument("--mute-audio")
         options.debugger_address = "127.0.0.1:9222"
         driver = webdriver.Chrome(options=options)
+        driver.get(TIKTOK_URL)
         return driver
     except Exception as e:
         print(f"Lỗi khi khởi tạo driver: {str(e)}")
@@ -111,17 +115,26 @@ def dang_nhap_tiktok():
     cookies = [c.strip() for c in cookie_final.split(';') if "=" in c]
     return cookies if cookies else []
 
+#========= Gán cookie vào Brave và kiểm tra đăng nhập =========#
+def gan_cookie_vao_brave(driver, cookies):
+    for cookie in cookies:
+        name, value = cookie.split('=', 1)
+        driver.add_cookie({'name': name.strip(), 'value': value.strip(), 'domain': '.tiktok.com'})
+    driver.refresh()
+
 if __name__ == "__main__":
     chay_brave()
     driver = setup_driver()
     if driver:
         cookies = dang_nhap_tiktok()
         if cookies:
-            cookie_final = '; '.join(cookies)
+            gan_cookie_vao_brave(driver, cookies)
+            time.sleep(5)
+            print("\n===== Đăng nhập thành công trên Brave! =====")
             tiktok_login = TikTokLogin()
+            cookie_final = '; '.join(cookies)
             result = tiktok_login.login_with_cookie(cookie_final)
             if result['success']:
-                print(f"\n===== Đăng nhập thành công! =====")
                 print(f"Username: {result['username']}")
                 print(f"Link tài khoản: https://www.tiktok.com/@{result['username']}")
                 print(f"Số người theo dõi: {result['follower_count']}")
