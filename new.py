@@ -26,3 +26,6 @@ options.add_argument("--mute-audio")
 options.add_argument("--disable-sound")
 options.debugger_address = "127.0.0.1:9222"
 driver = webdriver.Chrome(options=options)
+
+# Mở trang TikTok
+driver.get(TIKTOK_URL)
