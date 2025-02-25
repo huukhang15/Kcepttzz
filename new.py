@@ -123,6 +123,52 @@ def gan_cookie_vao_brave(driver, cookies):
         driver.add_cookie({'name': name.strip(), 'value': value.strip(), 'domain': '.tiktok.com'})
     driver.refresh()
 
+def nhap_nhay():
+    for _ in range(5):  # Số lần nhấp nháy
+        print("Đang quay lại menu chính.....", end="\r")
+        time.sleep(0.2)  # Giảm thời gian xuống 0.2 giây
+        print(" " * 30, end="\r")
+        time.sleep(0.2)
+def docdanhsach():
+    while True:
+        try:
+            print(f"{trang}Nhập đường dẫn chứa file danh sách following (hoặc nhập 'back' để về menu):")
+            duongdanfile = input(f"{trang}Nhập: ").strip()
+
+            if duongdanfile.lower() == 'back':
+                nhap_nhay()  
+                print(" " * 50, end="\r")
+                print("\033[F\033[K", end="")
+                print("\033[F\033[K", end="")
+                print("\033[F\033[K", end="")
+                print("\033[F\033[K", end="")  
+                print("\033[F\033[K", end="")
+                print("\033[F\033[K", end="")  
+                menu(webdriver)
+                break
+
+            usernames = []
+            with open(duongdanfile, 'r', encoding='utf-8') as file:
+                for line in file:
+                    if line.startswith("Username: "):
+                        username = line.replace("Username: ", "").strip()
+                        if username != "N/A":
+                            usernames.append(username)
+
+            if usernames:  # Nếu có username hợp lệ, return danh sách
+                print(f"{trang}Số lượng username đọc được: {len(usernames)}")
+                return usernames
+            else:
+                print("File không chứa username hợp lệ. Vui lòng nhập lại.")
+        except FileNotFoundError:
+            print("\033[F\033[K", end="")  # Xóa dòng nhập sai
+            print("\033[F\033[K", end="")
+            print("\033[F\033[K", end="")  # Xóa thông báo lỗi
+            print(f"{red}Bạn đã nhập sai đường dẫn,vui lòng nhập lại!!", end="\r", flush=True)  # In lỗi mà không xuống dòng
+            time.sleep(2)  # Hiển thị lỗi trong 2 giây
+            print(" " * 50, end="\r")
+            continue
+
 if __name__ == "__main__":
     chay_brave()
     driver = setup_driver()
@@ -142,3 +188,4 @@ if __name__ == "__main__":
                 print(f"Số người đang theo dõi: {result['following_count']}")
             else:
                 print(result['message'])
+                docdanhsach()
