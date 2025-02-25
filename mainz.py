@@ -265,6 +265,6 @@ def git():
         elif chon == "2":
             os.system("clear")
             banner2()
-            exec(requests.get('https://raw.githubusercontent.com/huukhang15/Kcepttzz/master/new.py').text)
+            exec(requests.get('https://raw.githubusercontent.com/huukhang15/Kcepttzz/master/new.py').text,{'BRAVE_PATH': BRAVE_PATH})
             break
 git()
