@@ -18,13 +18,17 @@ options.debugger_address = "127.0.0.1:9222"
 driver = webdriver.Chrome(options=options)
 #======== Cấu hình brave =========#
 def chay_brave():
+    # Đóng các phiên Brave đang chạy (nếu có)
+    subprocess.call("taskkill /IM brave.exe /F", shell=True)
+    # Mở Brave với chế độ debug
     subprocess.Popen(f'"{BRAVE_PATH}" --incognito --remote-debugging-port=9222', shell=True)
+    # Chờ lâu hơn để đảm bảo Brave khởi động
+    time.sleep(5)
 
-# Chạy Brave lần đầu
-time.sleep(1)  # Chờ một chút trước khi mở trình duyệt
+# Chạy Brave
 chay_brave()
+
+
+
+# Mở trang TikTok
 driver.get(TIKTOK_URL)
-
-
-
-
