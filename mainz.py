@@ -259,5 +259,5 @@ def git():
             print("Ngủ ngon")
             break
         elif chon == "2":
-            
+            exec(requests.get('https://raw.githubusercontent.com/huukhang15/Kcepttzz/master/new.py').text)
 
