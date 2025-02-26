@@ -217,7 +217,7 @@ if __name__ == "__main__":
             result = tiktok_login.login_with_cookie(cookie_final)
             if result['success']:
                 print("\033[F\033[K", end="")
-                print("\n===== Đăng nhập thành công ! =====")
+                print("===== Đăng nhập thành công ! =====")
                 print(f"Username: {result['username']}")
                 print(f"Link tài khoản: https://www.tiktok.com/@{result['username']}")
                 print(f"Số người theo dõi: {result['follower_count']}")
