@@ -170,7 +170,7 @@ def docdanhsach():
             print(f"{trang}Nhập đường dẫn chứa file danh sách following:")
             duongdanfile = input(f"{trang}Nhập: ").strip()
             duongdanfile = ''.join(c for c in duongdanfile if unicodedata.category(c) != 'Cf')
-            
+
             usernames = []
             with open(duongdanfile, 'r', encoding='utf-8') as file:
                 for line in file:
@@ -210,7 +210,7 @@ if __name__ == "__main__":
                 print(f"Link tài khoản: https://www.tiktok.com/@{result['username']}")
                 print(f"Số người theo dõi: {result['follower_count']}")
                 print(f"Số người đang theo dõi: {result['following_count']}")
-                print(f"========")
+                print(f"====================")
                 docdanhsach()
             else:
                 print(result['message'])
