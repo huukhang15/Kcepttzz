@@ -167,23 +167,10 @@ def nhap_nhay():
 def docdanhsach():
     while True:
         try:
-            print(f"{trang}Nhập đường dẫn chứa file danh sách following (hoặc nhập 'back' để về menu):")
+            print(f"{trang}Nhập đường dẫn chứa file danh sách following:")
             duongdanfile = input(f"{trang}Nhập: ").strip()
             duongdanfile = ''.join(c for c in duongdanfile if unicodedata.category(c) != 'Cf')
-
-
-            if duongdanfile.lower() == 'back':
-                nhap_nhay()  
-                print(" " * 50, end="\r")
-                print("\033[F\033[K", end="")
-                print("\033[F\033[K", end="")
-                print("\033[F\033[K", end="")
-                print("\033[F\033[K", end="")  
-                print("\033[F\033[K", end="")
-                print("\033[F\033[K", end="")  
-                menu(webdriver)
-                break
-
+            
             usernames = []
             with open(duongdanfile, 'r', encoding='utf-8') as file:
                 for line in file:
@@ -223,7 +210,7 @@ if __name__ == "__main__":
                 print(f"Link tài khoản: https://www.tiktok.com/@{result['username']}")
                 print(f"Số người theo dõi: {result['follower_count']}")
                 print(f"Số người đang theo dõi: {result['following_count']}")
-                print(f"=" *8)
+                print(f"========")
                 docdanhsach()
             else:
                 print(result['message'])
