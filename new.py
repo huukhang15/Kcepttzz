@@ -1,13 +1,22 @@
-import time
-import os
-import subprocess
 import requests
+import time
+import subprocess
+import random
 import re
+import os
+from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, StaleElementReferenceException
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from pystyle import Write, Colors
+import subprocess, sys; [subprocess.check_call([sys.executable, "-m", "pip", "install", lib]) for lib in ["requests", "selenium", "pystyle"] if __import__(lib, globals(), locals(), [], 0) is None]
+from datetime import datetime
 import unicodedata
 #========= Cấu hình link =========#
 TIKTOK_URL = "https://www.tiktok.com/"
