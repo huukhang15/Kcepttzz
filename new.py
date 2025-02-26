@@ -107,10 +107,12 @@ def dang_nhap_tiktok():
             while True:
                 su_dung_cu = input(f"{trang}Bạn muốn sử dụng cookie cũ không (Y/N): ").strip().upper()
                 if su_dung_cu == 'Y':
+                    print("\033[F\033[K", end="")
                     for _ in range(15): print(f"{xl}Sử dụng cookie cũ thành công.{RESET}", end="\r"); time.sleep(0.2); print(" " * 30, end="\r"); time.sleep(0.2)
                     cookie_final = cookie_cu
                     break
                 elif su_dung_cu == 'N':
+                    print("\033[F\033[K", end="")
                     # Nhập và lưu cookie mới
                     cookie_final = input(f"{trang}Nhập cookie mới của bạn: ").strip()
                     if "=" not in cookie_final:
