@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-
+import unicodedata
 #========= Cấu hình link =========#
 TIKTOK_URL = "https://www.tiktok.com/"
 BRAVE_PATH = r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
@@ -134,7 +134,7 @@ def docdanhsach():
         try:
             print(f"{trang}Nhập đường dẫn chứa file danh sách following (hoặc nhập 'back' để về menu):")
             duongdanfile = input(f"{trang}Nhập: ").strip()
-            duongdanfile = duongdanfile.strip('\u202a\u202c')  # Thêm dòng này
+            duongdanfile = ''.join(c for c in duongdanfile if unicodedata.category(c) != 'Cf')
 
 
             if duongdanfile.lower() == 'back':
