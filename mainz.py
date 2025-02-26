@@ -56,6 +56,7 @@ tim = "\033[1;35m"
 lamd = "\033[1;34m"
 lam = "\033[1;36m"
 hong = "\033[1;95m"
+dev="\033[1;39m[\033[1;31m×\033[1;39m]\033[1;39m"
 BLUE_DARK = '\033[34m'
 BLUE_LIGHT = '\033[36m'
 RESET = '\033[0m'
@@ -181,7 +182,7 @@ banner = f"""
 {BLUE_DARK}██║  ██╗██║██║ ╚████║██████╔╝╚██████╗███████╗██║        ██║   ███████╗
 {RESET}╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝╚══════╝╚═╝        ╚═╝   ╚══════╝
                    ╔════════════════════════════╗ {xn2}
-                      Facebook: Huukhang.info\t {trang}        
+                      [1;97m[\033[1;91m❣\033[1;97m]\033[1;97m Facebook: Huukhang.info\t {trang}        
                       Telegram: @nhk1510z\t           {hong}
                       Gmail   : huukhangz.info\t              {do2}
                    ╚════════════════════════════╝  {vang3}
@@ -254,8 +255,8 @@ def banner2():
 def git():
     while True:
         banner2()
-        print(Box.Lines("Chọn 1 để ngủ ngon"))
-        print(Box.Lines("Chọn 2 để ăn ngon (file)"))
+        print(f"Chọn [")
+        print(f"Chọn 2 để ăn ngon (file)")
         chon = input('\033[1;31m[\033[1;32m⟨⟩\033[1;31m]\033[1;33m➩ \033[1;34mNhập Số \033[1;37m: \033[1;33m')
         if chon == "1":
             os.system("clear")
