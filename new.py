@@ -319,7 +319,7 @@ if __name__ == "__main__":
                 print(f"Số người theo dõi: {result['follower_count']}")
                 print(f"Số người đang theo dõi: {result['following_count']}")
                 print(f"=" * 29)
-                docdanhsach()
+                usernames = docdanhsach()
                 unfollowtheo_danhsach(driver, usernames)
             else:
                 print(result['message'])
