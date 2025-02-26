@@ -73,47 +73,71 @@ def setup_driver():
 
 #========= Xử lý cookie =========#
 def dang_nhap_tiktok():
-    cookie_file = 'cookietiktok.txt'
-    cookie_final = ''
-
-    if not os.path.exists(cookie_file):
-        with open(cookie_file, 'w', encoding='utf-8') as f:
-            f.write('')
-
-    with open(cookie_file, 'r', encoding='utf-8') as f:
-        cookie_cu = f.read().strip()
-
-    if cookie_cu:
-        while True:
-            su_dung_cu = input("Bạn muốn sử dụng cookie cũ không (Y/N): ").strip().upper()
-            if su_dung_cu == 'Y':
-                print("Sử dụng cookie cũ thành công.")
-                cookie_final = cookie_cu
-                break
-            elif su_dung_cu == 'N':
-                cookie_final = input("Nhập cookie mới của bạn: ").strip()
+    """
+    Hàm xử lý đăng nhập TikTok bằng cookie.
+    Returns:
+        list: Danh sách các cookie đã được xử lý
+    """
+    os.system('cls')
+    print(banner)
+    try:
+        cookie_file = 'cookietiktok.txt'
+        cookie_final = ''
+        
+        # Kiểm tra và tạo file cookie nếu chưa tồn tại
+        if not os.path.exists(cookie_file):
+            with open(cookie_file, 'w', encoding='utf-8') as f:
+                f.write('')
+        
+        # Đọc cookie cũ từ file
+        with open(cookie_file, 'r', encoding='utf-8') as f:
+            cookie_cu = f.read().strip()
+        
+        # Xử lý trường hợp có cookie cũ
+        if cookie_cu:
+            while True:
+                su_dung_cu = input(f"{trang}Bạn muốn sử dụng cookie cũ không (Y/N): ").strip().upper()
+                if su_dung_cu == 'Y':
+                    for _ in range(15): print(f"{xl}Sử dụng cookie cũ thành công.", end="\r"); time.sleep(0.2); print(" " * 30, end="\r"); time.sleep(0.2)
+                    cookie_final = cookie_cu
+                    break
+                elif su_dung_cu == 'N':
+                    # Nhập và lưu cookie mới
+                    cookie_final = input(f"{trang}Nhập cookie mới của bạn: ").strip()
+                    if "=" not in cookie_final:
+                        for _ in range(15): print(f"{red}Cookie không tồn tại hoặc hết hạn", end="\r"); time.sleep(0.2); print(" " * 30, end="\r"); time.sleep(0.2)
+                        continue
+                    with open(cookie_file, 'w', encoding='utf-8') as f:
+                        f.write(cookie_final)
+                        for _ in range(15): print(f"{xl}Cookie mới đã được lưu.", end="\r"); time.sleep(0.2); print(" " * 30, end="\r"); time.sleep(0.2)
+                    break
+                else:
+                    print("\033[F\033[K", end="")  # Xóa thông báo lỗi
+                    for _ in range(5): print(f"{red}Vui lòng nhập đúng lựa chọn!", end="\r", flush=True); time.sleep(0.2); print(" " * 30, end="\r", flush=True); time.sleep(0.2)
+            print(" " * 50, end="\r")  # Xóa lỗi khỏi màn hình
+        else:
+            # Nhập và lưu cookie mới nếu không có cookie cũ
+            while True:
+                cookie_final = input(f"{trang}Nhập cookie mới của bạn: ").strip()
                 if "=" not in cookie_final:
-                    print("Cookie không tồn tại hoặc hết hạn")
+                    for _ in range(15): print(f"{red}Cookie không tồn tại hoặc hết hạn", end="\r"); time.sleep(0.2); print(" " * 30, end="\r"); time.sleep(0.2)
                     continue
                 with open(cookie_file, 'w', encoding='utf-8') as f:
                     f.write(cookie_final)
-                print("Cookie mới đã được lưu.")
+                    for _ in range(15): print(f"{xl}Cookie mới đã được lưu.", end="\r"); time.sleep(0.2); print(" " * 30, end="\r"); time.sleep(0.2)
                 break
-            else:
-                print("Vui lòng nhập đúng lựa chọn!")
-    else:
-        while True:
-            cookie_final = input("Nhập cookie mới của bạn: ").strip()
-            if "=" not in cookie_final:
-                print("Cookie không tồn tại hoặc hết hạn")
-                continue
-            with open(cookie_file, 'w', encoding='utf-8') as f:
-                f.write(cookie_final)
-            print("Cookie mới đã được lưu.")
-            break
-
-    cookies = [c.strip() for c in cookie_final.split(';') if "=" in c]
-    return cookies if cookies else []
+        
+        # Xử lý cookie thành list
+        cookies = [c.strip() for c in cookie_final.split(';') if "=" in c]
+        if not cookies:
+            for _ in range(15): print(f"{red}Cookie không tồn tại hoặc hết hạn", end="\r"); time.sleep(0.2); print(" " * 30, end="\r"); time.sleep(0.2)
+            return []
+            
+        return cookies
+        
+    except Exception as e:
+        print(f"Lỗi khi xử lý cookie: {str(e)}")
+        return []
 
 #========= Gán cookie vào Brave và kiểm tra đăng nhập =========#
 def gan_cookie_vao_brave(driver, cookies):
@@ -178,7 +202,7 @@ if __name__ == "__main__":
         cookies = dang_nhap_tiktok()
         if cookies:
             gan_cookie_vao_brave(driver, cookies)
-            time.sleep(5)
+            time.sleep(3)
             tiktok_login = TikTokLogin()
             cookie_final = '; '.join(cookies)
             result = tiktok_login.login_with_cookie(cookie_final)
