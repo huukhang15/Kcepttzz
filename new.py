@@ -134,6 +134,8 @@ def docdanhsach():
         try:
             print(f"{trang}Nhập đường dẫn chứa file danh sách following (hoặc nhập 'back' để về menu):")
             duongdanfile = input(f"{trang}Nhập: ").strip()
+            duongdanfile = duongdanfile.strip('\u202a\u202c')  # Thêm dòng này
+
 
             if duongdanfile.lower() == 'back':
                 nhap_nhay()  
