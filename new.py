@@ -203,7 +203,7 @@ def unfollowtheo_danhsach(driver, usernames):
     delay_max = int(input('Nhập Delay Max: '))
     jobs_to_rest = int(input('Sau bao nhiêu nhiệm vụ thì kích hoạt chống block: '))
     rest_time = int(input(f'Sau {jobs_to_rest} nhiệm vụ thì nghỉ ngơi bao nhiêu giây: '))
-    print("="*45)
+    print("="*55)
 
     count_success = 0
     failed_accounts = []
