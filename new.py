@@ -179,13 +179,10 @@ if __name__ == "__main__":
         if cookies:
             gan_cookie_vao_brave(driver, cookies)
             time.sleep(5)
-
             tiktok_login = TikTokLogin()
             cookie_final = '; '.join(cookies)
             result = tiktok_login.login_with_cookie(cookie_final)
-            
             if result['success']:
-                print("\033[F\033[K", end="")
                 print("\033[F\033[K", end="")
                 print("\033[F\033[K", end="")
                 print("\n===== Đăng nhập thành công ! =====")
