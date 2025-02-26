@@ -192,7 +192,115 @@ def docdanhsach():
             time.sleep(2)  # Hiển thị lỗi trong 2 giây
             print(" " * 50, end="\r")
             continue
+def unfollowtheo_danhsach(driver, usernames):
+    delay_min = int(input('Nhập Delay Min: '))
+    delay_max = int(input('Nhập Delay Max: '))
+    jobs_to_rest = int(input('Sau bao nhiêu nhiệm vụ thì kích hoạt chống block: '))
+    rest_time = int(input(f'Sau {jobs_to_rest} nhiệm vụ thì nghỉ ngơi bao nhiêu giây: '))
 
+    count_success = 0
+    failed_accounts = []
+    account_thaydoiusername = []
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    failed_file = f"failed_unfollow_{timestamp}.txt"
+
+    task_count = 0
+
+    for user in usernames:
+        user_url = f"https://www.tiktok.com/@{user}"
+        print(f"{trang}✨ Đang xử lý: {user_url}\033[0m")
+
+        try:
+            driver.get(user_url)
+            time.sleep(2)
+
+            error_messages = [
+                "//p[contains(text(), \"Couldn't find this account\")]",
+                "//p[contains(text(), 'Không tìm thấy tài khoản này')]",
+                "//div[contains(text(), \"Couldn't find this account\")]"]
+
+            account_not_found = False
+            for xpath in error_messages:
+                try:
+                    element = WebDriverWait(driver, 3).until(
+                        EC.presence_of_element_located((By.XPATH, xpath))
+                    )
+                    if element.is_displayed():
+                        print(f"\033[31m⚠️ {user} không tồn tại hoặc đã đổi username, bỏ qua...\033[0m")
+                        account_thaydoiusername.append(user)
+                        account_not_found = True
+                        break
+                except TimeoutException:
+                    continue
+
+            if account_not_found:
+                continue
+
+            FOLLOW_BUTTON = '[data-e2e="follow-button"]:not([aria-label*="Following"])'
+            FOLLOWING_BUTTON = '[data-e2e="follow-button"][aria-label*="Following"]'
+
+            try:
+                follow_button = WebDriverWait(driver, 3).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, FOLLOW_BUTTON))
+                )
+                if follow_button.is_displayed():
+                    print(f"\033[33m✅ Bạn đã unfollow rồi, bỏ qua !!!\033[0m")
+                    continue
+            except (NoSuchElementException, TimeoutException):
+                pass
+
+            retry = 0
+            while retry < 3:
+                try:
+                    following_button = WebDriverWait(driver, 3).until(
+                        EC.element_to_be_clickable((By.CSS_SELECTOR, FOLLOWING_BUTTON))
+                    )
+                    driver.execute_script("arguments[0].scrollIntoView(true);", following_button)
+                    following_button.click()
+                    driver.refresh()
+                    time.sleep(2)
+
+                    try:
+                        WebDriverWait(driver, 5).until(
+                            EC.presence_of_element_located((By.CSS_SELECTOR, FOLLOW_BUTTON))
+                        )
+                        count_success += 1
+                        task_count += 1
+                        print(f"{xl}✅ Bạn đã unfollow {user} ({count_success})\033[0m")
+                        break
+                    except TimeoutException:
+                        retry += 1
+                        print(f"{yellow}⚠️ Thử lại unfollow {user} lần {retry}\033[0m")
+
+                except Exception as e:
+                    print(f"{red}❌ Lỗi khi thử unfollow {user}: {str(e)}\033[0m")
+                    break
+
+            if retry == 3:
+                print(f"\033[31m❌ Hiện tại không thể unfollow {user} được.\033[0m")
+                failed_accounts.append(user)
+
+            if task_count % jobs_to_rest == 0 and task_count != 0:
+                countdown_timer(rest_time, f"🔄 Nghỉ ngơi chống block trong")
+            else:
+                delay = random.randint(delay_min, delay_max)
+                countdown_timer(delay, f"⏳ Đang đợi")
+
+        except Exception as e:
+            print(f"\033[31m⚠️ Có lỗi xảy ra với {user}: {str(e)}\033[0m")
+            continue
+
+    unique_accounts = set(failed_accounts)
+    with open(failed_file, 'w', encoding='utf-8') as f:
+        for account in unique_accounts:
+            f.write(f"Username: {account}\n")
+
+    print(f"{trang}📊 Tổng kết:\033[0m")
+    print(f"{trang} Đã lưu danh sách tài khoản unfollow thất bại vào file: {failed_file}")
+    print(f"{xl}✅ Số tài khoản đã unfollow thành công: {count_success}\033[0m")
+    print(f"{red}❌ Số tài khoản không thể unfollow: {len(failed_accounts)}\033[0m")
+    print(f"{yellow}🔄 Số tài khoản có thể đã đổi username: {len(account_thaydoiusername)}\033[0m")
 if __name__ == "__main__":
     chay_brave()
     driver = setup_driver()
@@ -210,8 +318,9 @@ if __name__ == "__main__":
                 print(f"Link tài khoản: https://www.tiktok.com/@{result['username']}")
                 print(f"Số người theo dõi: {result['follower_count']}")
                 print(f"Số người đang theo dõi: {result['following_count']}")
-                print(f"=" * 30)
+                print(f"=" * 29)
                 docdanhsach()
+                unfollowtheo_danhsach(driver, usernames)
             else:
                 print(result['message'])
                 
