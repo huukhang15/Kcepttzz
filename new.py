@@ -192,6 +192,11 @@ def docdanhsach():
             time.sleep(2)  # Hiển thị lỗi trong 2 giây
             print(" " * 50, end="\r")
             continue
+def countdown_timer(seconds, message):
+    for i in range(seconds, 0, -1):
+        print(f"\r{message} {i} giây...", end='', flush=True)
+        time.sleep(1)
+    print('\r' + ' ' * 80, end='\r')
 def unfollowtheo_danhsach(driver, usernames):
     delay_min = int(input('Nhập Delay Min: '))
     delay_max = int(input('Nhập Delay Max: '))
