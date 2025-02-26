@@ -88,7 +88,7 @@ def dang_nhap_tiktok():
         list: Danh sách các cookie đã được xử lý
     """
     os.system('cls')
-    print(banner)
+    banner2()
     try:
         cookie_file = 'cookietiktok.txt'
         cookie_final = ''
