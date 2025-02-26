@@ -58,7 +58,8 @@ lam = "\033[1;36m"
 hong = "\033[1;95m"
 BLUE_DARK = '\033[34m'
 BLUE_LIGHT = '\033[36m'
-RESET = '\033[0m'
+
+reset = "\033[0m"
 #========màu=========
 black_to_white = ["m;m;m"]
 black_to_red = ["m;0;0"]
